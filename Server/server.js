@@ -16,6 +16,9 @@ app.use('/uploads', express.static('uploads'));
 
 // Routes
 app.use('/api', formRoutes);
+app.get('/', (req, res) => {
+  res.send('Welcome to the API');
+});
 
 // DB Connect
 mongoose.connect(process.env.MONGO_URI)
