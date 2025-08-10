@@ -1,6 +1,6 @@
 import React from 'react'
 import Hero from '../components/Hero'
-import InfoSection from '../components/infoSection'
+import InfoSection from '../components/InfoSection' 
 import CTA from '../components/CTA'
 import AboutCards from '../components/AboutCards'
 import Form from '../components/Form'
