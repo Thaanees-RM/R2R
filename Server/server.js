@@ -1,4 +1,4 @@
-kkimport express from 'express';
+import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -11,7 +11,10 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static('uploads')); // Be careful with uploads on Vercel
+
+// NOTE: Vercel filesystem is read-only — avoid saving files locally.
+// Commenting out static serving of uploads folder if you don't have persistent storage.
+// app.use('/uploads', express.static('uploads')); 
 
 // Routes
 app.use('/api', formRoutes);
@@ -19,14 +22,10 @@ app.get('/', (req, res) => {
   res.send('Welcome to the API');
 });
 
-// Connect to MongoDB once when the function is cold-started
+// Connect to MongoDB once at cold start
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('Connected to MongoDB');
-  })
+  .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error(err));
 
-// **Do not call app.listen() on Vercel serverless!**
-// Instead, export the app for serverless handler:
+// Export app for serverless
 export default app;
-
